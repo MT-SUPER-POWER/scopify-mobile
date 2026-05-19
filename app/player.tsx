@@ -10,136 +10,250 @@ import {
   SkipBack,
   SkipForward,
 } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+const HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
 
 export default function PlayerScreen() {
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-black">
+    <SafeAreaView edges={['top']} className="flex-1" style={styles.container}>
       {/* Gradient Background Simulation */}
-      <View className="absolute top-0 left-0 right-0 h-[60%] bg-[#1a1a1a]" />
+      <View style={styles.gradient} />
 
       {/* Header */}
-      <View className="px-6 pt-6 pb-8 flex-row items-center justify-between">
+      <View style={styles.header}>
         {/* Minimize Button */}
         <Pressable
           onPress={() => router.back()}
-          className="p-2 rounded-full"
-          hitSlop={8}
+          style={styles.headerIconButton}
+          hitSlop={HIT_SLOP}
         >
           <ChevronDown size={24} color="#fff" />
         </Pressable>
 
         {/* Center Text Stack */}
-        <View className="items-center flex-1">
-          <Text
-            style={{ fontFamily: 'System' }}
-            className="text-[#9ca3af] text-[10px] uppercase tracking-[1px] text-center"
-          >
-            Playing From Playlist
-          </Text>
-          <Text
-            style={{ fontFamily: 'System' }}
-            className="text-white text-xs text-center"
-          >
-            Discover Weekly
-          </Text>
+        <View style={styles.headerCenter}>
+          <Text style={styles.playingFromText}>Playing From Playlist</Text>
+          <Text style={styles.playlistText}>Discover Weekly</Text>
         </View>
 
         {/* Menu Button */}
-        <Pressable className="p-2 rounded-full" hitSlop={8}>
+        <Pressable style={styles.headerIconButton} hitSlop={HIT_SLOP}>
           <Ellipsis size={24} color="#fff" />
         </Pressable>
       </View>
 
       {/* Album Art Section */}
-      <View className="flex-1 justify-center items-center px-6 pb-10">
-        <View className="w-full max-w-[340px] aspect-square rounded-md bg-[#4a5568] shadow-lg items-center justify-center">
+      <View style={styles.albumSection}>
+        <View style={styles.albumArt}>
           <Music size={80} color="rgba(255,255,255,0.3)" />
         </View>
       </View>
 
       {/* Song Info Section */}
-      <View className="px-6 pb-6 flex-row items-center justify-between">
+      <View style={styles.songInfo}>
         {/* Song Name & Artist */}
-        <View className="flex-1">
-          <Text
-            style={{ fontFamily: 'System' }}
-            className="text-white text-2xl font-bold leading-[32px]"
-          >
-            Midnight City
-          </Text>
-          <Text
-            style={{ fontFamily: 'System' }}
-            className="text-[#9ca3af] text-base"
-          >
-            M83
-          </Text>
+        <View style={styles.songInfoLeft}>
+          <Text style={styles.songTitle}>Midnight City</Text>
+          <Text style={styles.artistText}>M83</Text>
         </View>
 
         {/* Heart Button */}
-        <Pressable className="p-2" hitSlop={8}>
+        <Pressable style={styles.heartButton} hitSlop={HIT_SLOP}>
           <Heart size={28} color="#fff" />
         </Pressable>
       </View>
 
       {/* Progress Bar Section */}
-      <View className="px-6 pb-8">
+      <View style={styles.progressSection}>
         {/* Progress Track */}
-        <View className="w-full h-1 bg-[rgba(255,255,255,0.2)] rounded-full relative">
+        <View style={styles.progressTrack}>
           {/* Filled Portion */}
-          <View className="absolute left-0 top-0 w-[45%] h-1 bg-white rounded-full" />
+          <View style={styles.progressFilled} />
           {/* Thumb */}
-          <View
-            className="absolute top-1/2 -translate-y-1/2 size-3 bg-white rounded-full"
-            style={{ left: '45%', marginLeft: -6 }}
-          />
+          <View style={styles.progressThumb} />
         </View>
 
         {/* Timestamps */}
-        <View className="flex-row justify-between pt-3">
-          <Text
-            style={{ fontFamily: 'System' }}
-            className="text-[#9ca3af] text-[10px]"
-          >
-            1:42
-          </Text>
-          <Text
-            style={{ fontFamily: 'System' }}
-            className="text-[#9ca3af] text-[10px]"
-          >
-            -2:21
-          </Text>
+        <View style={styles.timestampsRow}>
+          <Text style={styles.timestampText}>1:42</Text>
+          <Text style={styles.timestampText}>-2:21</Text>
         </View>
       </View>
 
       {/* Media Controls */}
-      <View className="px-6 pb-8 flex-row items-center justify-between">
+      <View style={styles.controls}>
         {/* Shuffle */}
-        <Pressable className="p-2" hitSlop={8}>
+        <Pressable style={styles.controlButton} hitSlop={HIT_SLOP}>
           <Shuffle size={24} color="#b3b3b3" />
         </Pressable>
 
         {/* Previous */}
-        <Pressable className="p-2" hitSlop={8}>
+        <Pressable style={styles.controlButton} hitSlop={HIT_SLOP}>
           <SkipBack size={36} color="#fff" />
         </Pressable>
 
         {/* Play / Pause */}
-        <Pressable className="bg-white rounded-full p-4" hitSlop={8}>
+        <Pressable style={styles.playButton} hitSlop={HIT_SLOP}>
           <Pause size={36} color="#000" />
         </Pressable>
 
         {/* Next */}
-        <Pressable className="p-2" hitSlop={8}>
+        <Pressable style={styles.controlButton} hitSlop={HIT_SLOP}>
           <SkipForward size={36} color="#fff" />
         </Pressable>
 
         {/* Repeat */}
-        <Pressable className="p-2" hitSlop={8}>
+        <Pressable style={styles.controlButton} hitSlop={HIT_SLOP}>
           <Repeat size={24} color="#b3b3b3" />
         </Pressable>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#000000',
+  },
+  gradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '60%',
+    backgroundColor: '#1a1a1a',
+  },
+  header: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 32,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerIconButton: {
+    padding: 8,
+    borderRadius: 9999,
+  },
+  headerCenter: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  playingFromText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#9ca3af',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  playlistText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  albumSection: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingBottom: 40,
+  },
+  albumArt: {
+    width: '100%',
+    maxWidth: 340,
+    aspectRatio: 1,
+    borderRadius: 6,
+    backgroundColor: '#4a5568',
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 25 },
+    shadowOpacity: 0.5,
+    shadowRadius: 50,
+    elevation: 25,
+  },
+  songInfo: {
+    paddingHorizontal: 24,
+    paddingBottom: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  songInfoLeft: {
+    flex: 1,
+  },
+  songTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#ffffff',
+    lineHeight: 32,
+  },
+  artistText: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#9ca3af',
+  },
+  heartButton: {
+    padding: 8,
+  },
+  progressSection: {
+    paddingHorizontal: 24,
+    paddingBottom: 32,
+  },
+  progressTrack: {
+    width: '100%',
+    height: 4,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 9999,
+  },
+  progressFilled: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '45%',
+    height: 4,
+    backgroundColor: '#ffffff',
+    borderRadius: 9999,
+  },
+  progressThumb: {
+    position: 'absolute',
+    width: 12,
+    height: 12,
+    borderRadius: 9999,
+    backgroundColor: '#ffffff',
+    top: '50%',
+    marginTop: -6,
+    left: '45%',
+    marginLeft: -6,
+  },
+  timestampsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
+  },
+  timestampText: {
+    fontSize: 10,
+    fontWeight: '400',
+    color: '#9ca3af',
+  },
+  controls: {
+    paddingHorizontal: 24,
+    paddingBottom: 32,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  controlButton: {
+    padding: 8,
+  },
+  playButton: {
+    backgroundColor: '#ffffff',
+    borderRadius: 9999,
+    padding: 16,
+  },
+});

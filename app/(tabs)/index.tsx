@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Text, View, TextInput, ScrollView } from 'react-native';
+import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Search } from 'lucide-react-native';
 
@@ -20,24 +20,14 @@ export default function BrowseScreen() {
   const [query, setQuery] = useState('');
 
   return (
-    <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header */}
-      <View
-        className="pt-8 pb-4 px-4"
-        style={{ backgroundColor: 'rgba(0,0,0,0.95)' }}
-      >
-        <Text
-          style={{ fontFamily: 'System' }}
-          className="text-white text-[30px] leading-[36px] font-extrabold tracking-[-0.75px]"
-        >
-          Search
-        </Text>
-
-        {/* Search bar */}
-        <View className="mt-4 flex-row items-center rounded-md bg-white px-[13px] py-[13px] gap-[7px]">
+      <View style={styles.header}>
+        <Text style={styles.title}>Search</Text>
+        <View style={styles.searchBar}>
           <Search size={18} color="#4b5563" />
           <TextInput
-            className="flex-1 text-[14px] font-semibold text-black"
+            style={styles.searchInput}
             placeholder="What do you want to listen to?"
             placeholderTextColor="#4b5563"
             value={query}
@@ -48,49 +38,18 @@ export default function BrowseScreen() {
 
       {/* Content */}
       <ScrollView
-        className="flex-1 px-4 pb-[114px]"
-        contentContainerStyle={{ paddingBottom: 114 }}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
       >
-        {/* Browse all section */}
-        <Text
-          style={{ fontFamily: 'System' }}
-          className="text-white text-lg font-bold leading-[28px] mt-4 mb-4"
-        >
-          Browse all
-        </Text>
-
-        {/* Category grid */}
-        <View className="flex-row flex-wrap gap-4">
+        <Text style={styles.browseHeading}>Browse all</Text>
+        <View style={styles.grid}>
           {CATEGORIES.map((category) => (
             <View
               key={category.name}
-              style={{
-                backgroundColor: category.color,
-                width: 171,
-                height: 112,
-              }}
-              className="rounded-lg overflow-hidden"
+              style={[styles.tile, { backgroundColor: category.color }]}
             >
-              <Text
-                style={{ fontFamily: 'System' }}
-                className="text-white text-lg font-bold pt-[11px] px-3"
-              >
-                {category.name}
-              </Text>
-
-              {/* Decorative rotated element */}
-              <View
-                className="absolute"
-                style={{
-                  bottom: -8,
-                  right: -8,
-                  width: 85,
-                  height: 85,
-                  backgroundColor: 'rgba(0,0,0,0.2)',
-                  transform: [{ rotate: '25deg' }],
-                  borderRadius: 12,
-                }}
-              />
+              <Text style={styles.tileText}>{category.name}</Text>
+              <View style={styles.tileDecoration} />
             </View>
           ))}
         </View>
@@ -98,3 +57,85 @@ export default function BrowseScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#121212',
+  },
+  header: {
+    paddingTop: 32,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+    backgroundColor: 'rgba(0,0,0,0.95)',
+  },
+  title: {
+    fontFamily: 'System',
+    fontSize: 30,
+    fontWeight: '800',
+    color: '#ffffff',
+    letterSpacing: -0.75,
+    lineHeight: 36,
+  },
+  searchBar: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
+    padding: 13,
+    gap: 7,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4b5563',
+  },
+  scrollView: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  scrollContent: {
+    paddingBottom: 114,
+  },
+  browseHeading: {
+    fontFamily: 'System',
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#ffffff',
+    lineHeight: 28,
+    marginTop: 16,
+    marginBottom: 16,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  tile: {
+    width: 171,
+    height: 112,
+    borderRadius: 8,
+    overflow: 'hidden',
+    marginBottom: 16,
+    paddingTop: 11,
+    paddingLeft: 12,
+  },
+  tileText: {
+    fontFamily: 'System',
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#ffffff',
+  },
+  tileDecoration: {
+    position: 'absolute',
+    bottom: -16,
+    right: -20,
+    width: 85,
+    height: 85,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderRadius: 12,
+    transform: [{ rotate: '25deg' }],
+  },
+});

@@ -4,17 +4,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  StyleSheet,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import {
-  ArrowLeft,
-  ChevronRight,
-  House,
-  Library,
-  Search,
-  User,
-} from 'lucide-react-native';
+import { ArrowLeft, ChevronRight, User } from 'lucide-react-native';
 
 // ---------------------------------------------------------------------------
 // Toggle Switch
@@ -31,14 +25,16 @@ function ToggleSwitch({
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => onToggle(!value)}
-      className={`w-[40px] h-[24px] rounded-full justify-center px-[2px] ${
-        value ? 'bg-[#1ed760]' : 'bg-[#727272]'
-      }`}
+      style={[
+        styles.toggleOuter,
+        value ? styles.toggleOuterOn : styles.toggleOuterOff,
+      ]}
     >
       <View
-        className={`w-[16px] h-[16px] rounded-full bg-white ${
-          value ? 'self-end' : 'self-start'
-        }`}
+        style={[
+          styles.toggleThumb,
+          value ? styles.toggleThumbOn : styles.toggleThumbOff,
+        ]}
       />
     </TouchableOpacity>
   );
@@ -52,7 +48,7 @@ function SettingsRow({
   title,
   subtitle,
   label,
-  labelColor = 'text-[#94a3b8]',
+  labelColor = '#1ed760',
   rightChevron = true,
   toggle,
   lastRow = false,
@@ -66,36 +62,17 @@ function SettingsRow({
   lastRow?: boolean;
 }) {
   return (
-    <View
-      className={`flex-row justify-between items-center min-h-[56px] ${
-        !lastRow ? 'border-b border-[rgba(255,255,255,0.05)]' : ''
-      }`}
-    >
-      <View className="flex-1 pr-4">
-        <Text
-          style={{ fontFamily: 'System' }}
-          className="text-white text-sm font-bold"
-        >
-          {title}
-        </Text>
-        {subtitle ? (
-          <Text
-            style={{ fontFamily: 'System' }}
-            className="text-[#94a3b8] text-xs leading-[18px] mt-[2px]"
-          >
-            {subtitle}
-          </Text>
-        ) : null}
+    <View style={[styles.row, !lastRow && styles.rowBorder]}>
+      <View style={styles.rowLeft}>
+        <Text style={styles.rowTitle}>{title}</Text>
+        {subtitle ? <Text style={styles.rowSubtitle}>{subtitle}</Text> : null}
       </View>
 
       {toggle ? (
         <ToggleSwitch value={toggle.value} onToggle={toggle.onToggle} />
       ) : label ? (
-        <View className="flex-row items-center gap-1">
-          <Text
-            style={{ fontFamily: 'System' }}
-            className={`${labelColor} text-xs font-medium`}
-          >
+        <View style={styles.rowRight}>
+          <Text style={[styles.rowLabel, { color: labelColor }]}>
             {label}
           </Text>
           {rightChevron ? (
@@ -110,38 +87,8 @@ function SettingsRow({
 }
 
 // ---------------------------------------------------------------------------
-// Storage Bar
+// Storage Legend Item
 // ---------------------------------------------------------------------------
-
-function StorageBar() {
-  return (
-    <>
-      <View className="w-full h-[6px] rounded-full bg-[#282828] flex-row overflow-hidden">
-        <View className="flex-[0.45] bg-[#1ed760]" />
-        <View className="flex-[0.25] bg-[#b3b3b3]" />
-        <View className="flex-[0.30] bg-[#4d4d4d]" />
-      </View>
-
-      <View className="flex-row gap-6 mt-4">
-        <StorageLegendItem dotColor="bg-[#1ed760]" label="Downloads" value="12.4 GB" />
-        <StorageLegendItem dotColor="bg-[#b3b3b3]" label="Cache" value="4.2 GB" />
-        <StorageLegendItem dotColor="bg-[#4d4d4d]" label="Free" value="8.4 GB" />
-      </View>
-
-      <TouchableOpacity
-        activeOpacity={0.7}
-        className="border border-[#727272] rounded-full px-8 py-[11px] self-start mt-4"
-      >
-        <Text
-          style={{ fontFamily: 'System' }}
-          className="text-white text-sm font-bold text-center"
-        >
-          Clear Cache
-        </Text>
-      </TouchableOpacity>
-    </>
-  );
-}
 
 function StorageLegendItem({
   dotColor,
@@ -153,22 +100,50 @@ function StorageLegendItem({
   value: string;
 }) {
   return (
-    <View className="flex-row items-center gap-[6px]">
-      <View className={`w-[8px] h-[8px] rounded-full ${dotColor}`} />
+    <View style={styles.legendItem}>
+      <View style={[styles.dot, { backgroundColor: dotColor }]} />
       <View>
-        <Text
-          style={{ fontFamily: 'System' }}
-          className="text-white/90 text-xs"
-        >
-          {label}
-        </Text>
-        <Text
-          style={{ fontFamily: 'System' }}
-          className="text-[#64748b] text-xs"
-        >
-          {value}
-        </Text>
+        <Text style={styles.legendLabel}>{label}</Text>
+        <Text style={styles.legendValue}>{value}</Text>
       </View>
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Storage Bar
+// ---------------------------------------------------------------------------
+
+function StorageBar() {
+  return (
+    <View style={styles.storageSection}>
+      <View style={styles.storageBar}>
+        <View style={styles.storageGreen} />
+        <View style={styles.storageGray} />
+        <View style={styles.storageDark} />
+      </View>
+
+      <View style={styles.legendRow}>
+        <StorageLegendItem
+          dotColor="#1ed760"
+          label="Downloads"
+          value="12.4 GB"
+        />
+        <StorageLegendItem
+          dotColor="#b3b3b3"
+          label="Cache"
+          value="4.2 GB"
+        />
+        <StorageLegendItem
+          dotColor="#4d4d4d"
+          label="Free"
+          value="8.4 GB"
+        />
+      </View>
+
+      <TouchableOpacity activeOpacity={0.7} style={styles.clearCacheBtn}>
+        <Text style={styles.clearCacheText}>Clear Cache</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -180,202 +155,342 @@ function StorageLegendItem({
 export default function SettingsScreen() {
   const router = useRouter();
 
-  // Toggle states
   const [gaplessPlayback, setGaplessPlayback] = useState(true);
   const [automix, setAutomix] = useState(true);
   const [dataSaver, setDataSaver] = useState(false);
 
   return (
-    <SafeAreaView className="flex-1 bg-[#121212]" edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header */}
-      <View className="bg-[rgba(18,18,18,0.95)] p-4 flex-row items-center">
+      <View style={styles.header}>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => router.back()}
-          className="w-[40px] h-[40px] items-center justify-center"
+          style={styles.headerBackButton}
         >
           <ArrowLeft size={24} color="#ffffff" />
         </TouchableOpacity>
 
-        <Text
-          style={{ fontFamily: 'System' }}
-          className="text-white text-base font-bold text-center flex-1 pr-[40px]"
-        >
-          Settings
-        </Text>
+        <Text style={styles.headerTitle}>Settings</Text>
       </View>
 
       <ScrollView
-        className="flex-1"
-        contentContainerStyle={{ paddingBottom: 24 }}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Main Content */}
-        <View className="pt-6 px-6 gap-6">
-          {/* ── Profile Section ── */}
-          <TouchableOpacity
-            activeOpacity={0.7}
-            className="flex-row gap-4 items-center"
-          >
-            <View className="size-[56px] rounded-full bg-[#282828] items-center justify-center">
-              <User size={28} color="#b3b3b3" />
-            </View>
-            <View className="flex-1">
-              <Text
-                style={{ fontFamily: 'System' }}
-                className="text-white text-xl font-bold"
-              >
-                Alex Thompson
-              </Text>
-              <View className="flex-row items-center gap-[2px]">
-                <Text
-                  style={{ fontFamily: 'System' }}
-                  className="text-[#94a3b8] text-sm"
-                >
-                  View Profile
-                </Text>
-                <ChevronRight size={14} color="#94a3b8" strokeWidth={2} />
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          {/* ── Account Section ── */}
-          <View>
-            <Text
-              style={{ fontFamily: 'System' }}
-              className="text-white text-base font-bold pt-4 pb-3 px-0"
-            >
-              Account
-            </Text>
-            <SettingsRow
-              title="Premium Plan"
-              subtitle="Individual • Next bill Dec 12"
-              rightChevron
-            />
-            <SettingsRow
-              title="Email"
-              subtitle="alex.t@example.com"
-              rightChevron
-              lastRow
-            />
+        {/* ── Profile Section ── */}
+        <TouchableOpacity activeOpacity={0.7} style={styles.profileSection}>
+          <View style={styles.avatar}>
+            <User size={28} color="#b3b3b3" />
           </View>
-
-          {/* ── Data Saver Section ── */}
-          <View>
-            <Text
-              style={{ fontFamily: 'System' }}
-              className="text-white text-base font-bold pt-6 pb-3"
-            >
-              Data Saver
-            </Text>
-            <SettingsRow
-              title="Audio Quality"
-              subtitle="Sets your audio quality to low (equivalent to 24kbit/s) and hides artist canvases."
-              toggle={{ value: dataSaver, onToggle: setDataSaver }}
-              lastRow
-            />
-          </View>
-
-          {/* ── Playback Section ── */}
-          <View>
-            <Text
-              style={{ fontFamily: 'System' }}
-              className="text-white text-base font-bold pt-6 pb-3"
-            >
-              Playback
-            </Text>
-            <SettingsRow
-              title="Gapless Playback"
-              subtitle="Allow transitions between songs"
-              toggle={{ value: gaplessPlayback, onToggle: setGaplessPlayback }}
-            />
-            <SettingsRow
-              title="Automix"
-              subtitle="Smooth transitions between tracks"
-              toggle={{ value: automix, onToggle: setAutomix }}
-              lastRow
-            />
-          </View>
-
-          {/* ── Audio Quality Section ── */}
-          <View>
-            <Text
-              style={{ fontFamily: 'System' }}
-              className="text-white text-base font-bold pt-6 pb-3"
-            >
-              Audio Quality
-            </Text>
-            <SettingsRow
-              title="WiFi Streaming"
-              label="Very High"
-              labelColor="text-[#1ed760]"
-            />
-            <SettingsRow
-              title="Cellular Streaming"
-              label="Automatic"
-              labelColor="text-[#1ed760]"
-              lastRow
-            />
-          </View>
-
-          {/* ── Storage Section ── */}
-          <View>
-            <Text
-              style={{ fontFamily: 'System' }}
-              className="text-white text-base font-bold pt-6 pb-3"
-            >
-              Storage
-            </Text>
-            <StorageBar />
-          </View>
-
-          {/* ── Version Footer ── */}
-          <View className="pt-10 pb-4 items-center">
-            <Text
-              style={{ fontFamily: 'System' }}
-              className="text-[#64748b] text-[10px] uppercase tracking-[1px] text-center"
-            >
-              Version 8.8.82.634
-            </Text>
-          </View>
-
-          {/* ── Bottom Navigation Bar ── */}
-          <View className="flex-row justify-between items-end pt-6 pb-4 px-8">
-            {/* Home — inactive */}
-            <View className="items-center gap-[4px]">
-              <House size={28} color="#b3b3b3" />
-              <Text
-                style={{ fontFamily: 'System' }}
-                className="text-[10px] text-[#b3b3b3]"
-              >
-                Home
-              </Text>
-            </View>
-
-            {/* Search — active */}
-            <View className="items-center gap-[4px]">
-              <Search size={28} color="#ffffff" />
-              <Text
-                style={{ fontFamily: 'System' }}
-                className="text-[10px] text-white"
-              >
-                Search
-              </Text>
-            </View>
-
-            {/* Library — inactive */}
-            <View className="items-center gap-[4px]">
-              <Library size={28} color="#b3b3b3" />
-              <Text
-                style={{ fontFamily: 'System' }}
-                className="text-[10px] text-[#b3b3b3]"
-              >
-                Your Library
-              </Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.profileName}>Alex Thompson</Text>
+            <View style={styles.profileViewRow}>
+              <Text style={styles.profileViewText}>View Profile</Text>
+              <ChevronRight size={14} color="#94a3b8" strokeWidth={2} />
             </View>
           </View>
+        </TouchableOpacity>
+
+        {/* ── Account Section ── */}
+        <View style={styles.accountSection}>
+          <Text style={styles.sectionLabelFirst}>Account</Text>
+          <SettingsRow
+            title="Premium Plan"
+            subtitle="Individual • Next bill Dec 12"
+          />
+          <SettingsRow
+            title="Email"
+            subtitle="alex.t@example.com"
+            lastRow
+          />
+        </View>
+
+        {/* ── Data Saver Section ── */}
+        <View>
+          <Text style={styles.sectionLabel}>Data Saver</Text>
+          <SettingsRow
+            title="Audio Quality"
+            subtitle="Sets your audio quality to low (equivalent to 24kbit/s) and hides artist canvases."
+            toggle={{ value: dataSaver, onToggle: setDataSaver }}
+            lastRow
+          />
+        </View>
+
+        {/* ── Playback Section ── */}
+        <View>
+          <Text style={styles.sectionLabel}>Playback</Text>
+          <SettingsRow
+            title="Gapless Playback"
+            subtitle="Allow transitions between songs"
+            toggle={{ value: gaplessPlayback, onToggle: setGaplessPlayback }}
+          />
+          <SettingsRow
+            title="Automix"
+            subtitle="Smooth transitions between tracks"
+            toggle={{ value: automix, onToggle: setAutomix }}
+            lastRow
+          />
+        </View>
+
+        {/* ── Audio Quality Section ── */}
+        <View>
+          <Text style={styles.sectionLabel}>Audio Quality</Text>
+          <SettingsRow title="WiFi Streaming" label="Very High" />
+          <SettingsRow
+            title="Cellular Streaming"
+            label="Automatic"
+            lastRow
+          />
+        </View>
+
+        {/* ── Storage Section ── */}
+        <View>
+          <Text style={styles.sectionLabel}>Storage</Text>
+          <StorageBar />
+        </View>
+
+        {/* ── Version Footer ── */}
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>Version 8.8.82.634</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Styles
+// ---------------------------------------------------------------------------
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#121212',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 24,
+  },
+
+  // Header
+  header: {
+    backgroundColor: 'rgba(18,18,18,0.95)',
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerBackButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#ffffff',
+    paddingRight: 40,
+  },
+
+  // Profile
+  profileSection: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  avatar: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#282828',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  profileName: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#ffffff',
+  },
+  profileViewRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+  },
+  profileViewText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#94a3b8',
+  },
+
+  // Account Section (marginTop handled via accountSection style)
+  accountSection: {
+    marginTop: 24,
+  },
+
+  // Section Labels
+  sectionLabelFirst: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#ffffff',
+    paddingTop: 16,
+    paddingBottom: 12,
+    paddingHorizontal: 24,
+  },
+  sectionLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#ffffff',
+    paddingTop: 24,
+    paddingBottom: 12,
+    paddingHorizontal: 24,
+  },
+
+  // Settings Row
+  row: {
+    minHeight: 56,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  rowBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255,255,255,0.05)',
+  },
+  rowLeft: {
+    flex: 1,
+    paddingRight: 16,
+  },
+  rowTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#ffffff',
+  },
+  rowSubtitle: {
+    fontSize: 12,
+    color: '#94a3b8',
+    lineHeight: 18,
+    marginTop: 2,
+  },
+  rowRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  rowLabel: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
+
+  // Toggle Switch
+  toggleOuter: {
+    width: 40,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    paddingHorizontal: 2,
+  },
+  toggleOuterOn: {
+    backgroundColor: '#1ed760',
+  },
+  toggleOuterOff: {
+    backgroundColor: '#727272',
+  },
+  toggleThumb: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#ffffff',
+  },
+  toggleThumbOn: {
+    alignSelf: 'flex-end',
+  },
+  toggleThumbOff: {
+    alignSelf: 'flex-start',
+  },
+
+  // Storage
+  storageSection: {
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+  },
+  storageBar: {
+    height: 6,
+    borderRadius: 9999,
+    flexDirection: 'row',
+    overflow: 'hidden',
+    backgroundColor: '#282828',
+  },
+  storageGreen: {
+    flex: 0.45,
+    backgroundColor: '#1ed760',
+  },
+  storageGray: {
+    flex: 0.25,
+    backgroundColor: '#b3b3b3',
+  },
+  storageDark: {
+    flex: 0.3,
+    backgroundColor: '#4d4d4d',
+  },
+  legendRow: {
+    marginTop: 16,
+    flexDirection: 'row',
+    gap: 24,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  legendLabel: {
+    color: '#cbd5e1',
+    fontSize: 12,
+  },
+  legendValue: {
+    color: '#64748b',
+    fontSize: 12,
+  },
+  clearCacheBtn: {
+    borderWidth: 1,
+    borderColor: '#727272',
+    borderRadius: 9999,
+    paddingHorizontal: 33,
+    paddingVertical: 11,
+    marginTop: 16,
+    alignSelf: 'flex-start',
+  },
+  clearCacheText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#ffffff',
+  },
+
+  // Footer
+  footer: {
+    paddingTop: 40,
+    paddingBottom: 16,
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 10,
+    fontWeight: '500',
+    color: '#64748b',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+});
