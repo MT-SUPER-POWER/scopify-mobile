@@ -11,9 +11,9 @@ export const CategoryTile: React.FC<CategoryTileProps> = ({ category, onPress })
   return (
     <Pressable
       onPress={onPress}
-      className="relative mb-4 h-28 w-[48%] overflow-hidden rounded-lg p-3"
+      className="relative mb-4 h-36 w-[48%] overflow-hidden rounded-lg p-3"
       style={{ backgroundColor: category.color }}>
-      <Text className="w-[80%] text-lg font-bold text-white">{category.name}</Text>
+      <Text className="w-[80%] text-2xl font-bold text-white">{category.name}</Text>
 
       {/* Decorative Angled Art */}
       <View
@@ -21,8 +21,8 @@ export const CategoryTile: React.FC<CategoryTileProps> = ({ category, onPress })
           position: 'absolute',
           bottom: -15,
           right: -15,
-          width: 70,
-          height: 70,
+          width: 100,
+          height: 100,
           backgroundColor: '#000',
           transform: [{ rotate: '25deg' }],
           shadowColor: '#000',

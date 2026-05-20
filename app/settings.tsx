@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Pressable, Image, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChevronLeft } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
@@ -16,9 +16,9 @@ export default function SettingsScreen() {
       {/* Header */}
       <View className="flex-row items-center px-4 py-4">
         <Pressable onPress={() => router.back()} className="-ml-2 p-2">
-          <ChevronLeft size={28} color="white" />
+          <ChevronLeft size={34} color="white" />
         </Pressable>
-        <Text className="mr-8 flex-1 text-center text-base font-bold text-white">Settings</Text>
+        <Text className="mr-8 flex-1 text-center text-xl font-bold text-white">Settings</Text>
       </View>
 
       <ScrollView className="flex-1">
@@ -80,37 +80,37 @@ export default function SettingsScreen() {
         {/* Storage Section (Kept in main for visibility) */}
         <View className="mt-4">
           <View className="px-6 py-4">
-            <Text className="text-base font-bold text-white">Storage</Text>
+            <Text className="text-lg font-bold text-white">Storage</Text>
           </View>
           <View className="px-6">
             <View className="h-1.5 w-full flex-row overflow-hidden rounded-full bg-[#282828]">
-              <View style={{ width: '45%', backgroundColor: '#1db954' }} />
-              <View style={{ width: '25%', backgroundColor: '#b3b3b3' }} />
-              <View style={{ width: '30%', backgroundColor: '#4d4d4d' }} />
+              <View className="h-full w-[45%] bg-[#1db954]" />
+              <View className="h-full w-[25%] bg-[#b3b3b3]" />
+              <View className="h-full w-[30%] bg-[#4d4d4d]" />
             </View>
             <View className="mt-6 flex-row items-center justify-between">
               <View className="gap-3">
                 <View className="flex-row items-center gap-3">
                   <View className="h-2 w-2 rounded-full bg-[#1db954]" />
-                  <Text className="text-xs text-[#cbd5e1]">
+                  <Text className="text-sm text-[#cbd5e1]">
                     Downloads <Text className="text-[#64748b]">12.4 GB</Text>
                   </Text>
                 </View>
                 <View className="flex-row items-center gap-3">
                   <View className="h-2 w-2 rounded-full bg-[#b3b3b3]" />
-                  <Text className="text-xs text-[#cbd5e1]">
+                  <Text className="text-sm text-[#cbd5e1]">
                     Cache <Text className="text-[#64748b]">4.2 GB</Text>
                   </Text>
                 </View>
                 <View className="flex-row items-center gap-3">
                   <View className="h-2 w-2 rounded-full bg-[#4d4d4d]" />
-                  <Text className="text-xs text-[#cbd5e1]">
+                  <Text className="text-sm text-[#cbd5e1]">
                     Free <Text className="text-[#64748b]">8.4 GB</Text>
                   </Text>
                 </View>
               </View>
               <Pressable className="rounded-full border border-[#727272] px-8 py-2.5">
-                <Text className="text-sm font-bold text-white">Clear Cache</Text>
+                <Text className="text-base font-bold text-white">Clear Cache</Text>
               </Pressable>
             </View>
           </View>
@@ -118,7 +118,7 @@ export default function SettingsScreen() {
 
         {/* Version */}
         <View className="mt-10 mb-20 items-center">
-          <Text className="text-[10px] tracking-widest text-[#64748b] uppercase">
+          <Text className="text-xs tracking-widest text-[#64748b] uppercase">
             Version 8.8.82.634
           </Text>
         </View>

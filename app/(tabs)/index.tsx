@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, ScrollView, Image, Pressable, Platform, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Image, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Bell, Settings } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 
 // Asset constants
 const imgLikedSongs = 'https://www.figma.com/api/mcp/asset/8ea7870a-5591-4edb-a635-e15c326a2a09';
@@ -57,34 +57,32 @@ const MADE_FOR_YOU = [
 ];
 
 export default function HomeScreen() {
-  const router = useRouter();
-
   return (
-    <View style={{ flex: 1, backgroundColor: '#121212' }}>
+    <View className="flex-1 bg-[#121212]">
       <LinearGradient colors={['#1e1e1e', '#121212']} style={{ flex: 1 }}>
         <SafeAreaView style={{ flex: 1 }} edges={['top']}>
           <View className="flex-row items-center justify-between px-4 py-6">
-            <Text className="text-2xl font-bold tracking-[-0.6px] text-white">Good evening</Text>
+            <Text className="text-4xl font-bold tracking-[-0.6px] text-white">Good evening</Text>
             <View className="flex-row gap-4">
               <Pressable className="p-2">
-                <Bell size={24} color="white" />
+                <Bell size={28} color="white" />
               </Pressable>
               <Link href="/settings" asChild>
                 <Pressable className="p-2">
-                  <Settings size={24} color="white" />
+                  <Settings size={28} color="white" />
                 </Pressable>
               </Link>
             </View>
           </View>
 
           <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 160 }}>
-            <View className="flex-row flex-wrap gap-2 px-4">
+            <View className="flex-row flex-wrap justify-center gap-4 px-4">
               {QUICK_ACTIONS.map((item) => (
                 <Pressable
                   key={item.id}
-                  className="h-14 w-[48%] flex-row items-center overflow-hidden rounded-md bg-[#2a2a2a]">
-                  <Image source={{ uri: item.image }} className="h-14 w-14" />
-                  <Text className="flex-1 px-3 text-sm font-bold text-white" numberOfLines={2}>
+                  className="h-[88px] w-[47%] flex-row items-center overflow-hidden rounded-md bg-[#2a2a2a]">
+                  <Image source={{ uri: item.image }} className="h-[88px] w-[88px]" />
+                  <Text className="flex-1 px-3 text-lg font-bold text-white" numberOfLines={2}>
                     {item.title}
                   </Text>
                 </Pressable>
@@ -93,7 +91,7 @@ export default function HomeScreen() {
 
             <View className="mt-8">
               <View className="mb-4 px-4">
-                <Text className="text-xl font-bold tracking-[-0.5px] text-white">
+                <Text className="text-3xl font-bold tracking-[-0.5px] text-white">
                   Recently Played
                 </Text>
               </View>
@@ -102,14 +100,14 @@ export default function HomeScreen() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingHorizontal: 16, gap: 16 }}>
                 {RECENTLY_PLAYED.map((item) => (
-                  <Pressable key={item.id} className="w-36">
-                    <View className="h-36 w-36 overflow-hidden rounded-lg bg-[#2a2a2a] shadow-lg">
+                  <Pressable key={item.id} className="w-48">
+                    <View className="h-48 w-48 overflow-hidden rounded-lg bg-[#2a2a2a] shadow-lg">
                       <Image source={{ uri: item.image }} className="h-full w-full" />
                     </View>
-                    <Text className="mt-2 text-sm font-bold text-white" numberOfLines={1}>
+                    <Text className="mt-2 text-lg font-bold text-white" numberOfLines={1}>
                       {item.title}
                     </Text>
-                    <Text className="text-xs text-[#9ca3af]" numberOfLines={1}>
+                    <Text className="text-base text-[#9ca3af]" numberOfLines={1}>
                       {item.artist}
                     </Text>
                   </Pressable>
@@ -119,8 +117,10 @@ export default function HomeScreen() {
 
             <View className="mt-8">
               <View className="mb-1 px-4">
-                <Text className="text-xl font-bold tracking-[-0.5px] text-white">Made For You</Text>
-                <Text className="text-xs text-[#9ca3af]">
+                <Text className="text-3xl font-bold tracking-[-0.5px] text-white">
+                  Made For You
+                </Text>
+                <Text className="text-base text-[#9ca3af]">
                   Personalized playlists for your taste
                 </Text>
               </View>
@@ -129,11 +129,11 @@ export default function HomeScreen() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingHorizontal: 16, gap: 16, paddingTop: 12 }}>
                 {MADE_FOR_YOU.map((item) => (
-                  <Pressable key={item.id} className="w-40">
-                    <View className="h-40 w-40 overflow-hidden rounded-lg bg-[#2a2a2a] shadow-lg">
+                  <Pressable key={item.id} className="w-52">
+                    <View className="h-52 w-52 overflow-hidden rounded-lg bg-[#2a2a2a] shadow-lg">
                       <Image source={{ uri: item.image }} className="h-full w-full" />
                     </View>
-                    <Text className="mt-3 text-xs text-[#9ca3af]" numberOfLines={2}>
+                    <Text className="mt-3 text-base text-[#9ca3af]" numberOfLines={2}>
                       {item.description}
                     </Text>
                   </Pressable>

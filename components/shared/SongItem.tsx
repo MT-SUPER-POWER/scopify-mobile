@@ -16,17 +16,17 @@ export const SongItem: React.FC<SongItemProps> = ({ song, onPress, onMorePress }
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={`${song.title} by ${song.artist}`}>
-      <Image source={{ uri: song.image }} className="mr-3 h-12 w-12 rounded bg-gray-800" />
+      <Image source={{ uri: song.image }} className="mr-3 h-16 w-16 rounded bg-gray-800" />
       <View className="flex-1">
-        <Text className="font-bold text-white">{song.title}</Text>
-        <Text className="text-sm text-[#b3b3b3]">{song.artist}</Text>
+        <Text className="text-lg font-bold text-white">{song.title}</Text>
+        <Text className="text-lg text-[#b3b3b3]">{song.artist}</Text>
       </View>
       <Pressable
         className="p-2"
         onPress={onMorePress}
         accessibilityLabel="More options"
         accessibilityRole="button">
-        <MoreVertical size={20} color="#b3b3b3" />
+        <MoreVertical size={24} color="#b3b3b3" />
       </Pressable>
     </Pressable>
   );

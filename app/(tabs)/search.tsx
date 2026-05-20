@@ -15,17 +15,17 @@ export default function SearchScreen() {
       {/* Header */}
       <View className="px-4 pt-6 pb-4">
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-3xl font-extrabold tracking-tighter text-white">Search</Text>
+          <Text className="text-4xl font-extrabold tracking-tighter text-white">Search</Text>
           <Pressable className="p-2">
-            <Camera size={24} color="white" />
+            <Camera size={28} color="white" />
           </Pressable>
         </View>
 
         {/* Search Bar */}
-        <Pressable className="h-12 flex-row items-center gap-2 rounded-md bg-white px-3">
-          <SearchIcon size={20} color="#000000" />
+        <Pressable className="h-16 flex-row items-center gap-2 rounded-md bg-white px-3">
+          <SearchIcon size={28} color="#000000" />
           <TextInput
-            className="flex-1 text-sm font-semibold text-black"
+            className="flex-1 text-base font-semibold text-black"
             placeholder="What do you want to listen to?"
             placeholderTextColor="#4b5563"
             value={query}
@@ -47,7 +47,7 @@ export default function SearchScreen() {
       <ScrollView
         className="flex-1"
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 160 }}>
-        <Text className="mb-4 text-lg font-bold text-white">Browse all</Text>
+        <Text className="mb-4 text-2xl font-bold text-white">Browse all</Text>
 
         <View className="flex-row flex-wrap justify-between">
           {SEARCH_CATEGORIES.map((category) => (

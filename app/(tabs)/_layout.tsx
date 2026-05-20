@@ -1,6 +1,6 @@
 import { Tabs, useRouter } from 'expo-router';
 import { House, Search, Library, Music, Play } from 'lucide-react-native';
-import { View, Text, Image, Pressable, Platform } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 
 const imgMiniArt = 'https://www.figma.com/api/mcp/asset/2f345f8b-329e-4898-b8b8-37f57d000c9a';
 
@@ -8,7 +8,7 @@ export default function TabLayout() {
   const router = useRouter();
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#000000' }}>
+    <View className="flex-1 bg-black">
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -17,46 +17,37 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: 'rgba(0,0,0,0.9)',
             borderTopWidth: 0,
-            height: 60,
-            paddingBottom: 8,
+            height: 72,
+            paddingBottom: 10,
           },
         }}>
         <Tabs.Screen
           name="index"
           options={{
             title: 'Home',
-            tabBarIcon: ({ color }) => <House size={24} color={color} />,
+            tabBarIcon: ({ color }) => <House size={28} color={color} />,
           }}
         />
         <Tabs.Screen
           name="search"
           options={{
             title: 'Search',
-            tabBarIcon: ({ color }) => <Search size={24} color={color} />,
+            tabBarIcon: ({ color }) => <Search size={28} color={color} />,
           }}
         />
         <Tabs.Screen
           name="library"
           options={{
             title: 'Your Library',
-            tabBarIcon: ({ color }) => <Library size={24} color={color} />,
+            tabBarIcon: ({ color }) => <Library size={28} color={color} />,
           }}
         />
       </Tabs>
 
       {/* Persistent Mini Player anchored above Tab Bar */}
       <Pressable
+        className="absolute right-3 bottom-[88px] left-3 h-[72px] flex-row items-center rounded-lg bg-[#2a2a2a] px-2"
         style={{
-          position: 'absolute',
-          bottom: 68, // Increased from 65 to add a small gap
-          left: 8,
-          right: 8,
-          height: 56,
-          backgroundColor: '#2a2a2a',
-          borderRadius: 8,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 8,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.5,
@@ -64,34 +55,24 @@ export default function TabLayout() {
           elevation: 10,
         }}
         onPress={() => router.push('/music-player')}>
-        <View style={{ width: 40, height: 40, borderRadius: 4, overflow: 'hidden' }}>
-          <Image source={{ uri: imgMiniArt }} style={{ width: '100%', height: '100%' }} />
+        <View className="h-14 w-14 overflow-hidden rounded-md">
+          <Image source={{ uri: imgMiniArt }} className="h-full w-full" />
         </View>
-        <View style={{ flex: 1, paddingHorizontal: 12 }}>
-          <Text style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+        <View className="flex-1 px-3">
+          <Text className="text-base font-bold text-white" numberOfLines={1}>
             Starboy
           </Text>
-          <Text style={{ color: '#9ca3af', fontSize: 10 }} numberOfLines={1}>
+          <Text className="text-sm text-[#9ca3af]" numberOfLines={1}>
             The Weeknd • Daft Punk
           </Text>
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, paddingRight: 8 }}>
+        <View className="flex-row items-center gap-[18px] pr-2">
           <Music size={20} color="#22c55e" />
-          <Play size={24} color="white" fill="white" />
+          <Play size={18} color="white" fill="white" />
         </View>
         {/* Mini Progress Bar */}
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 4,
-            right: 4,
-            height: 2,
-            backgroundColor: 'rgba(255,255,255,0.2)',
-            borderRadius: 2,
-            overflow: 'hidden',
-          }}>
-          <View style={{ width: '45%', height: '100%', backgroundColor: '#22c55e' }} />
+        <View className="absolute right-1 bottom-0 left-1 h-[2px] overflow-hidden rounded-sm bg-white/20">
+          <View className="h-full w-[45%] bg-[#22c55e]" />
         </View>
       </Pressable>
     </View>

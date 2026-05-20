@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { MOCK_SEARCH_RESULTS, MOCK_ALBUMS, SEARCH_FILTERS } from '../constants/search';
+import { MOCK_SEARCH_RESULTS, MOCK_ALBUMS } from '../constants/search';
 import { SearchHeader } from '../components/search/SearchHeader';
 import { TopResultCard } from '../components/search/TopResultCard';
 import { SongItem } from '../components/shared/SongItem';
@@ -30,7 +30,7 @@ export default function SearchResultsScreen() {
 
           {/* Songs */}
           <View className="mb-8">
-            <Text className="mb-4 text-xl font-bold text-white">Songs</Text>
+            <Text className="mb-4 text-3xl font-bold text-white">Songs</Text>
             {MOCK_SEARCH_RESULTS.songs.map((song) => (
               <SongItem key={song.id} song={song} />
             ))}
@@ -38,7 +38,7 @@ export default function SearchResultsScreen() {
 
           {/* Albums */}
           <View className="mb-10">
-            <Text className="mb-4 text-xl font-bold text-white">Albums</Text>
+            <Text className="mb-4 text-3xl font-bold text-white">Albums</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
               {MOCK_ALBUMS.map((album) => (
                 <AlbumCard key={album.id} album={album} />

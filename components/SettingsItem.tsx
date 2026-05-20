@@ -26,21 +26,21 @@ export function SettingsItem({
   return (
     <Pressable className="flex-row items-center px-6 py-3" onPress={onPress}>
       <View className="flex-1 pr-4">
-        <Text className="text-[14px] font-bold text-white">{title}</Text>
+        <Text className="text-base font-bold text-white">{title}</Text>
         {subtitle && (
-          <Text className="text-xs leading-5 text-[#94a3b8]" numberOfLines={2}>
+          <Text className="text-sm leading-5 text-[#94a3b8]" numberOfLines={2}>
             {subtitle}
           </Text>
         )}
         {valueText && (
-          <Text style={{ color: valueColor }} className="text-xs font-medium">
+          <Text style={{ color: valueColor }} className="text-sm font-medium">
             {valueText}
           </Text>
         )}
       </View>
 
-      {type === 'link' && <ChevronRight size={20} color="#94a3b8" />}
-      {type === 'dropdown' && <ChevronDown size={20} color="white" />}
+      {type === 'link' && <ChevronRight size={24} color="#94a3b8" />}
+      {type === 'dropdown' && <ChevronDown size={24} color="white" />}
       {type === 'switch' && (
         <Switch
           value={value}
@@ -57,7 +57,7 @@ export function SettingsGroup({ title, children }: { title: string; children: Re
   return (
     <View className="mt-4">
       <View className="px-6 py-4">
-        <Text className="text-base font-bold text-white">{title}</Text>
+        <Text className="text-lg font-bold text-white">{title}</Text>
       </View>
       {children}
     </View>

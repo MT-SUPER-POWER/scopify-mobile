@@ -1,20 +1,11 @@
 import React, { useRef } from 'react';
-import { View, Text, Image, Pressable, Dimensions, StyleSheet, Animated } from 'react-native';
+import { View, Text, Image, Pressable, Dimensions, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  ChevronDown,
-  MoreHorizontal,
-  Heart,
-  Shuffle,
-  SkipBack,
-  Play,
-  SkipForward,
-  Repeat1,
-  ListMusic,
-  Share2,
-} from 'lucide-react-native';
+import { Heart, ListMusic, Share2 } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { PlayerHeader } from '../components/player/PlayerHeader';
+import { PlayerControls } from '../components/player/PlayerControls';
 
 const { width, height } = Dimensions.get('window');
 const ALBUM_ART_SIZE = Math.min(width - 48, height * 0.4);
@@ -35,215 +26,78 @@ export default function PlayerScreen() {
   };
 
   return (
-    <Animated.View style={[styles.container, { transform: [{ translateY: slideAnim }] }]}>
+    <Animated.View
+      className="flex-1 bg-[#121212]"
+      style={{ transform: [{ translateY: slideAnim }] }}>
       <LinearGradient
         colors={['#4b5563', '#121212']}
         locations={[0, 0.6]}
-        style={StyleSheet.absoluteFill}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
       />
 
-      <SafeAreaView style={styles.safeArea}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Pressable onPress={handleDismiss} style={styles.iconBtn}>
-            <ChevronDown size={28} color="white" />
-          </Pressable>
-          <View style={styles.headerCenter}>
-            <Text style={styles.playingFromLabel}>PLAYING FROM PLAYLIST</Text>
-            <Text style={styles.playlistName}>Starboy</Text>
-          </View>
-          <Pressable style={styles.iconBtn}>
-            <MoreHorizontal size={28} color="white" />
-          </Pressable>
-        </View>
+      <SafeAreaView style={{ flex: 1, paddingHorizontal: 24 }}>
+        <PlayerHeader playlistName="Starboy" onDismiss={handleDismiss} />
 
         {/* Album Art */}
-        <View style={styles.albumWrapper}>
-          <View style={[styles.albumArt, { width: ALBUM_ART_SIZE, height: ALBUM_ART_SIZE }]}>
-            <Image
-              source={{ uri: imgAlbumArt }}
-              style={{ width: '100%', height: '100%' }}
-              resizeMode="cover"
-            />
+        <View className="flex-1 items-center justify-center py-4">
+          <View
+            style={{
+              width: ALBUM_ART_SIZE,
+              height: ALBUM_ART_SIZE,
+              borderRadius: 10,
+              overflow: 'hidden',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 12 },
+              shadowOpacity: 0.6,
+              shadowRadius: 20,
+              elevation: 20,
+            }}>
+            <Image source={{ uri: imgAlbumArt }} className="h-full w-full" resizeMode="cover" />
           </View>
         </View>
 
         {/* Song Info */}
-        <View style={styles.songInfo}>
-          <View style={{ flex: 1, paddingRight: 16 }}>
-            <Text style={styles.songTitle} numberOfLines={1}>
+        <View className="mb-5 flex-row items-center">
+          <View className="flex-1 pr-4">
+            <Text className="text-3xl font-bold text-white" numberOfLines={1}>
               Starboy
             </Text>
-            <Text style={styles.songArtist} numberOfLines={1}>
+            <Text className="mt-1 text-xl text-[#b3b3b3]" numberOfLines={1}>
               The Weeknd • Daft Punk
             </Text>
           </View>
           <Pressable hitSlop={8}>
-            <Heart size={26} color="#22c55e" fill="#22c55e" />
+            <Heart size={32} color="#22c55e" fill="#22c55e" />
           </Pressable>
         </View>
 
         {/* Progress Bar */}
-        <View style={styles.progressSection}>
-          <View style={styles.progressTrack}>
-            <View style={[styles.progressFill, { width: `${PROGRESS * 100}%` }]} />
-            <View style={[styles.progressKnob, { left: `${PROGRESS * 100}%` }]} />
+        <View className="mb-6">
+          <View className="relative h-1 rounded-sm bg-white/20">
+            <View className="h-full rounded-sm bg-white" style={{ width: `${PROGRESS * 100}%` }} />
+            <View
+              className="absolute top-1/2 -mt-2 -ml-2 h-4 w-4 rounded-full bg-white"
+              style={{ left: `${PROGRESS * 100}%` }}
+            />
           </View>
-          <View style={styles.timeRow}>
-            <Text style={styles.timeText}>1:42</Text>
-            <Text style={styles.timeText}>-2:08</Text>
+          <View className="mt-2 flex-row justify-between">
+            <Text className="text-base text-[#b3b3b3]">1:42</Text>
+            <Text className="text-base text-[#b3b3b3]">-2:08</Text>
           </View>
         </View>
 
-        {/* Controls */}
-        <View style={styles.controls}>
-          <Pressable hitSlop={8}>
-            <Shuffle size={22} color="#22c55e" />
-          </Pressable>
-          <Pressable hitSlop={8}>
-            <SkipBack size={34} color="white" fill="white" />
-          </Pressable>
-          <Pressable style={styles.playBtn}>
-            <Play size={30} color="black" fill="black" style={{ marginLeft: 3 }} />
-          </Pressable>
-          <Pressable hitSlop={8}>
-            <SkipForward size={34} color="white" fill="white" />
-          </Pressable>
-          <Pressable hitSlop={8}>
-            <Repeat1 size={22} color="white" />
-          </Pressable>
-        </View>
+        <PlayerControls />
 
         {/* Bottom Actions */}
-        <View style={styles.bottomActions}>
+        <View className="flex-row items-center justify-between pb-3">
           <Pressable hitSlop={8}>
-            <Share2 size={20} color="#b3b3b3" />
+            <Share2 size={24} color="#b3b3b3" />
           </Pressable>
           <Pressable hitSlop={8}>
-            <ListMusic size={20} color="#b3b3b3" />
+            <ListMusic size={24} color="#b3b3b3" />
           </Pressable>
         </View>
       </SafeAreaView>
     </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: 24,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: 8,
-    paddingBottom: 4,
-  },
-  iconBtn: {
-    padding: 8,
-  },
-  headerCenter: {
-    alignItems: 'center',
-  },
-  playingFromLabel: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: 'white',
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
-  },
-  playlistName: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: 'white',
-    marginTop: 2,
-  },
-  albumWrapper: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-  },
-  albumArt: {
-    borderRadius: 10,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.6,
-    shadowRadius: 20,
-    elevation: 20,
-  },
-  songInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  songTitle: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: 'white',
-  },
-  songArtist: {
-    fontSize: 15,
-    color: '#b3b3b3',
-    marginTop: 4,
-  },
-  progressSection: {
-    marginBottom: 24,
-  },
-  progressTrack: {
-    height: 4,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 2,
-    position: 'relative',
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: 'white',
-    borderRadius: 2,
-  },
-  progressKnob: {
-    position: 'absolute',
-    top: '50%',
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: 'white',
-    marginTop: -6,
-    marginLeft: -6,
-  },
-  timeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 8,
-  },
-  timeText: {
-    fontSize: 11,
-    color: '#b3b3b3',
-  },
-  controls: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 28,
-  },
-  playBtn: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottomActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingBottom: 12,
-  },
-});

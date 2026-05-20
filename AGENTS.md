@@ -55,8 +55,11 @@ The project uses `pnpm` (as inferred from `package.json` overrides) or `npm`.
 ## Development Conventions
 
 ### Styling Guidelines
-- Use **Tailwind classes** (via `className`) for standard View/Text elements.
-- Use **inline styles** for layout-critical or third-party components (e.g., `LinearGradient`, `BlurView`) to avoid version-specific interop issues.
+- **Tailwind First**: MUST use Tailwind classes (`className`) for ALL styling. `style={{}}` and `StyleSheet.create()` are FORBIDDEN except in the two cases below.
+- **Inline styles allowed ONLY when**:
+  1. Third-party components that don't reliably support `className` (e.g., `LinearGradient`, `BlurView`, `SafeAreaView`).
+  2. CSS properties that Tailwind/NativeWind cannot express (e.g., `transform`, `shadowOffset`, `elevation`).
+- If you find yourself writing `style={{}}`, first ask: "Can this be done with a Tailwind class?" If yes, use Tailwind.
 - Adhere to the **Spotify Color Palette**:
   - Background: `#121212` (Dark Grey) / `#000000` (Black)
   - Primary Green: `#1DB954` / `#22C55E`
@@ -64,6 +67,7 @@ The project uses `pnpm` (as inferred from `package.json` overrides) or `npm`.
 
 ### Component Patterns
 - **Atomic Components**: Extract repetitive UI elements (like list items or profile headers) into the `components/` directory.
+- **Page Decomposition**: A screen file in `app/` should be a thin orchestrator. Extract major sections into named components under `components/`. If a screen file exceeds ~150 lines, it MUST be decomposed.
 - **Navigation**: Use the `useRouter` hook or `<Link />` component from `expo-router` for all internal navigation.
 - **Modals**: Full-screen players or settings sub-pages should be configured as Stack Modals in the root `_layout.tsx`.
 
