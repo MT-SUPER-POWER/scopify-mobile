@@ -17,3 +17,58 @@
     - `docs(readme): 增加本地开发指南`
 
 <!-- END: cooperation-rule  -->
+
+<!-- BEGIN: Scopify App Contexxt  -->
+
+# Scopify App - Project Context
+
+## Project Overview
+Scopify is a mobile music application built with **React Native** and **Expo**, heavily inspired by the Spotify design system. The project aims to provide an immersive, dark-themed music listening experience with a focus on high-fidelity UI restoration from Figma designs.
+
+### Core Technologies
+- **Framework**: [Expo](https://expo.dev/) (SDK 54+) with [Expo Router](https://docs.expo.dev/router/introduction/) for file-based routing.
+- **Styling**: [NativeWind](https://www.nativewind.dev/) (Tailwind CSS v4). Note: Standard React Native `style` props are preferred for third-party components (like `LinearGradient`) to ensure layout reliability.
+- **Icons**: [Lucide React Native](https://lucide.dev/guide/packages/lucide-react-native).
+- **Navigation**: Tabs-based main navigation with Stack-based Modals (e.g., Music Player).
+- **Design Source**: Spotify-inspired Figma UI.
+
+## Project Structure
+- `app/`: Contains the file-based routing logic.
+  - `(tabs)/`: Main navigation screens (Home, Search, Library).
+  - `playlist/[id].tsx`: Dynamic route for playlist details.
+  - `music-player.tsx`: Full-screen music player modal.
+  - `settings.tsx`: User profile and application settings.
+  - `_layout.tsx`: Root layout configuration.
+- `components/`: Shared UI components (e.g., `SettingsItem`, `SettingsProfile`).
+- `assets/`: Static assets like icons and splash screens.
+- `global.css`: Global Tailwind CSS configuration.
+
+## Building and Running
+The project uses `pnpm` (as inferred from `package.json` overrides) or `npm`.
+
+- **Start Development Server**: `npm start` or `npx expo start`
+- **Clear Cache & Restart**: `npx expo start --clear` (Recommended after route changes)
+- **Run on Android**: `npm run android`
+- **Run on iOS**: `npm run ios`
+- **Lint & Format**: `npm run lint` / `npm run format`
+
+## Development Conventions
+
+### Styling Guidelines
+- Use **Tailwind classes** (via `className`) for standard View/Text elements.
+- Use **inline styles** for layout-critical or third-party components (e.g., `LinearGradient`, `BlurView`) to avoid version-specific interop issues.
+- Adhere to the **Spotify Color Palette**:
+  - Background: `#121212` (Dark Grey) / `#000000` (Black)
+  - Primary Green: `#1DB954` / `#22C55E`
+  - Muted Text: `#94A3B8` / `#B3B3B3`
+
+### Component Patterns
+- **Atomic Components**: Extract repetitive UI elements (like list items or profile headers) into the `components/` directory.
+- **Navigation**: Use the `useRouter` hook or `<Link />` component from `expo-router` for all internal navigation.
+- **Modals**: Full-screen players or settings sub-pages should be configured as Stack Modals in the root `_layout.tsx`.
+
+### Figma Sync
+- Future UI changes should be verified against the design at: `https://www.figma.com/design/2thlQKAEvIr4irCcHHDFah/Scopify-%E7%9A%84%E7%A7%BB%E5%8A%A8%E7%AB%AF-UI`.
+- Maintain the "angled art" decoration style in the Search category tiles.
+
+<!-- END: Scopify App Contexxt  -->

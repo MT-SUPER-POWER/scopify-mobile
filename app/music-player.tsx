@@ -1,13 +1,5 @@
 import React, { useRef } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  Pressable,
-  Dimensions,
-  StyleSheet,
-  Animated,
-} from 'react-native';
+import { View, Text, Image, Pressable, Dimensions, StyleSheet, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   ChevronDown,
@@ -25,7 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
-const ALBUM_ART_SIZE = Math.min(width - 48, height * 0.40);
+const ALBUM_ART_SIZE = Math.min(width - 48, height * 0.4);
 const PROGRESS = 0.45;
 
 const imgAlbumArt = 'https://www.figma.com/api/mcp/asset/867e453f-4ac1-4693-b7e8-7b0e5a53da91';
@@ -79,8 +71,12 @@ export default function PlayerScreen() {
         {/* Song Info */}
         <View style={styles.songInfo}>
           <View style={{ flex: 1, paddingRight: 16 }}>
-            <Text style={styles.songTitle} numberOfLines={1}>Starboy</Text>
-            <Text style={styles.songArtist} numberOfLines={1}>The Weeknd • Daft Punk</Text>
+            <Text style={styles.songTitle} numberOfLines={1}>
+              Starboy
+            </Text>
+            <Text style={styles.songArtist} numberOfLines={1}>
+              The Weeknd • Daft Punk
+            </Text>
           </View>
           <Pressable hitSlop={8}>
             <Heart size={26} color="#22c55e" fill="#22c55e" />
@@ -101,19 +97,31 @@ export default function PlayerScreen() {
 
         {/* Controls */}
         <View style={styles.controls}>
-          <Pressable hitSlop={8}><Shuffle size={22} color="#22c55e" /></Pressable>
-          <Pressable hitSlop={8}><SkipBack size={34} color="white" fill="white" /></Pressable>
+          <Pressable hitSlop={8}>
+            <Shuffle size={22} color="#22c55e" />
+          </Pressable>
+          <Pressable hitSlop={8}>
+            <SkipBack size={34} color="white" fill="white" />
+          </Pressable>
           <Pressable style={styles.playBtn}>
             <Play size={30} color="black" fill="black" style={{ marginLeft: 3 }} />
           </Pressable>
-          <Pressable hitSlop={8}><SkipForward size={34} color="white" fill="white" /></Pressable>
-          <Pressable hitSlop={8}><Repeat1 size={22} color="white" /></Pressable>
+          <Pressable hitSlop={8}>
+            <SkipForward size={34} color="white" fill="white" />
+          </Pressable>
+          <Pressable hitSlop={8}>
+            <Repeat1 size={22} color="white" />
+          </Pressable>
         </View>
 
         {/* Bottom Actions */}
         <View style={styles.bottomActions}>
-          <Pressable hitSlop={8}><Share2 size={20} color="#b3b3b3" /></Pressable>
-          <Pressable hitSlop={8}><ListMusic size={20} color="#b3b3b3" /></Pressable>
+          <Pressable hitSlop={8}>
+            <Share2 size={20} color="#b3b3b3" />
+          </Pressable>
+          <Pressable hitSlop={8}>
+            <ListMusic size={20} color="#b3b3b3" />
+          </Pressable>
         </View>
       </SafeAreaView>
     </Animated.View>
